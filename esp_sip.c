@@ -217,7 +217,7 @@ static bool check_ac_tid(u8 * pkt, u8 ac, u8 tid)
 	return false;
 }
 
-static void sip_recalc_credit_timeout(unsigned long data)
+static void sip_recalc_credit_timeout(struct timer_list * data)
 {
 	struct esp_sip *sip = (struct esp_sip *) data;
 

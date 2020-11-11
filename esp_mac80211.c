@@ -389,7 +389,7 @@ static bool beacon_tim_alter(struct sk_buff *beacon)
 
 unsigned long init_jiffies;
 unsigned long cycle_beacon_count;
-static void drv_handle_beacon(unsigned long data)
+static void drv_handle_beacon(struct timer_list * data)
 {
 	struct ieee80211_vif *vif = (struct ieee80211_vif *) data;
 	struct esp_vif *evif = (struct esp_vif *) vif->drv_priv;
@@ -1176,7 +1176,7 @@ void esp_rocdone_process(struct ieee80211_hw *hw,
 	ESP_IEEE80211_DBG(ESP_DBG_OP, "%s enter, state = %d is_ok = %d\n",
 			  __func__, report->state, report->is_ok);
 
-	//roc process begin 
+	//roc process begin
 	if ((report->state == 1) && (report->is_ok == 1)) {
 		epub->roc_flags = 1;	//flags in roc state, to fix channel, not change
 		ieee80211_ready_on_channel(hw);
@@ -1429,7 +1429,7 @@ struct esp_pub *esp_pub_alloc_mac80211(struct device *dev)
 
 	INIT_WORK(&epub->tx_work, esp_tx_work);
 
-	//epub->esp_wkq = create_freezable_workqueue("esp_wkq"); 
+	//epub->esp_wkq = create_freezable_workqueue("esp_wkq");
 	epub->esp_wkq = create_singlethread_workqueue("esp_wkq");
 
 	if (epub->esp_wkq == NULL) {
@@ -1579,7 +1579,7 @@ static void esp_pub_init_mac80211(struct esp_pub *epub)
 	ieee80211_hw_set(hw, SUPPORTS_PS);
 	ieee80211_hw_set(hw, AMPDU_AGGREGATION);
 	ieee80211_hw_set(hw, HOST_BROADCAST_PS_BUFFERING);
-	//IEEE80211_HW_PS_NULLFUNC_STACK |   
+	//IEEE80211_HW_PS_NULLFUNC_STACK |
 	//IEEE80211_HW_CONNECTION_MONITOR |
 	//IEEE80211_HW_BEACON_FILTER |
 	//IEEE80211_HW_AMPDU_AGGREGATION |
